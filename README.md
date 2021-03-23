@@ -1,4 +1,4 @@
-# LuaScript ![logo](https://i.ibb.co/3zmyJqF/luascript-logo.png)
+# ![logo](https://i.ibb.co/3zmyJqF/luascript-logo.png) LuaScript
 Library and preprocessor for object-oriented programming in the Lua programming language.
 
 ### Example main.lss
