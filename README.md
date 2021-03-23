@@ -35,7 +35,7 @@ local class Love2d: Callbacks {
 
 return Love2d
 ````
-### Preprocessed lua file
+### Processed lua file
 ``` lua
 process("engine/schema.lss")
 local fieldController
