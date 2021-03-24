@@ -1,4 +1,5 @@
-![logo-big](https://user-images.githubusercontent.com/59461733/112256573-c1acf580-8c42-11eb-8603-30be4d9278aa.png)
+![logo-big](https://user-images.githubusercontent.com/59461733/112256573-c1acf580-8c42-11eb-8603-30be4d9278aa.png)\
+__Repository__ <big>**·**</big> [Documentation](https://github.com/jotapapel/luascript/wiki) <big>**·**</big> [Releases](https://github.com/jotapapel/luascript/releases)
 
 Library and preprocessor for object-oriented programming in the Lua programming language.
 
