@@ -1,4 +1,5 @@
-# ![logo](https://i.ibb.co/jbGqzPn/lss-logo.png) LuaScript
+<img height="64" alt="logo-big" src="https://user-images.githubusercontent.com/59461733/112255197-814c7800-8c40-11eb-9220-24fc6778a975.png">
+
 Library and preprocessor for object-oriented programming in the Lua programming language.
 
 ### Example main.lss
