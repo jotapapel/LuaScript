@@ -1,6 +1,6 @@
 --[[
 	LuaScript Preprocessor
-	v1.3.0 by jotapapel
+	v1.3.1 by jotapapel
 --]]
 
 local unpack, params = table.unpack or unpack, {...}
@@ -11,16 +11,23 @@ function string.trim(...)
 	return unpack(r)
 end
 
-function string.gsubc(s, m, r)
-	local cl = {}
-	local ns = s:gsub(m, function(f) table.insert(cl, f) return r end)
-	return ns, cl
+function string.gsubc(s, m, r, mf)
+	local fa, i, mf, r = {}, 1, mf or function(f) return f end, r:gsub("%$", "%%s")
+	local s = s:gsub(m, function(f)
+		local k = string.format("%s%03i", tostring(fa):sub(-4), i)
+		fa[k], i = mf(f), i + 1
+		return string.format(r, k)
+	end)
+	return s, fa
 end
 
-function string.gsubr(s, m, t)
-	local r = t or ""
-	if (type(t) == "table") then r = table.remove(t, 1) end
-	return string.gsub(s, m, function(_) return r end)
+function string.gsubr(s, m, t, rs)
+	local i, m = 1, m:gsub("%$", "%%s")
+	for k, v in pairs(t) do
+		local k = string.format(m, k)
+		s = s:gsub(k, function() return rs or v end)
+	end
+	return s
 end
 
 function string.default(s, d)
@@ -33,43 +40,52 @@ function table.tostring(t, k)
 	return (#t > 0) and string.format("%s%s", s, t[#t]) or nil
 end
 
-local function file_exists(file)
+local function fileExists(file)
 	local f = io.open(file, "r")
 	if (f) then f:close() end
 	return (f ~= nil)
 end
 
-local function file_lines(file)
+local function fileLines(file)
 	local ls = {}
-	if (file_exists(file) == nil) then return ls end
+	if (fileExists(file) == nil) then return ls end
 	for l in io.lines(file) do table.insert(ls, l) end
 	return ls
 end
 
 local function process(f, d)
-	local lines, output = file_lines(f), ""
+	local lines, output = fileLines(f), ""
 	local il, is = 0, (d or false) and string.char(32):rep(3) or ""
 	local showc, slc = d, nil
 	local lss, ins, lfs, fnr = nil, nil, nil, {}
+	
+	local function postmarks(s)
+		local aa, bb = {}, {}
+		s, bb = s:gsubc("%b[]", "<brk$>", function(f) return string.format("[%s]", postmarks(f:sub(2, -2))) end)
+		s, aa = s:gsubc("%b()", "<arg$>", function(f) return string.format("(%s)", postmarks(f:sub(2, -2))) end)
+		s = s:gsub("([{%(].+[}%)])!", [[rawvar(%1)]]):gsub("([%S]*)!", [[rawvar(%1)]]):gsubr("<arg$>", aa)
+		s = s:gsub("#({.+})", [[tonumber(%1)]]):gsub("#([%S]*),", [[tonumber(%1),]]):gsub("#([%S]*)", [[tonumber(%1)]])
+		s = s:gsub("$({.+})", [[tostring(%1)]]):gsub("$([%S]*),", [[tostring(%1),]]):gsub("$([%S]*)", [[tostring(%1)]])
+		s = s:gsub("&([%w]+)", function(f) return (f:match("^([a-fA-F0-9]*)$") and #f < 7) and string.format([[torgb("%s")]], f) or string.format("&%s", f) end)
+		return s:gsubr("<brk$>", bb)
+	end
+	
 	for n, line in ipairs(lines) do
 		local line, comment = line:trim(), ""
 		if (lsc == nil) then
+			-- fix variable postmarks
+			line = postmarks(line)
 			-- placeholders
-			local ss34, ss39, ss91, slc
-			line, ss91 = line:gsubc("(%[%[.-%]%])", "<string91/>")
-			line, ss39 = line:gsubc([[%b'']], "<string39/>")
-			line, ss34 = line:gsubc([[%b""]], "<string34/>")
-			line, slc = line:gsubc("/%*(.-)%*/", "<comment/>")
-			line, _ = line:gsubc("/%*", "<comment>")
-			line, _ = line:gsubc("%*/", "</comment>")
+			local ss34, ss39, ss91, slc, omlc, cmlc
+			line, ss34 = line:gsubc([[%b""]], "<s34$/>")
+			line, ss39 = line:gsubc([[%b'']], "<s39$/>")
+			line, ss91 = line:gsubc("(%[%[.-%]%])", "<s91$/>")
+			line, slc = line:gsubc("/%*(.-)%*/", "<rem/>", function(f) return string.format("-- %s", f:trim()) end)
+			line, omlc = line:gsubc("/%*", "<rem>")
+			line, cmlc = line:gsubc("%*/", "</rem>")
 			-- manage comments
 			if (line:match("^.-//.-$")) then _, _, line, comment = string.trim(line:find("^(.-)//(.-)$")) end
-			if (line:match("^.-(<comment>)$")) then lsc = n end
-			-- fix variable helpers
-			line = line:gsub("([{%(].+[}%)])!", [[rawvar(%1)]]):gsub("([%S]*)!", [[rawvar(%1)]])
-			line = line:gsub("$({.+})", [[tostring(%1)]]):gsub("$([%S]*)", [[tostring(%1)]])
-			line = line:gsub("#({.+})", [[tonumber(%1)]]):gsub("#([%S]*)", [[tonumber(%1)]])
-			line = line:gsub("&([a-fA-F0-9]+)", [[torgb("%1")]])
+			if (line:match("^.-(<rem>)$")) then lsc = n end
 			-- fix import statement
 			if (line:match("^(import)%s.-$")) then line = string.format([[process("%s.lss")]], line:match("import%s(.*)$"):gsub("%.", "/")) end
 			-- fix try/catch control structure
@@ -128,20 +144,20 @@ local function process(f, d)
 			-- fix last variable inside table
 			if (string.trim(lines[n + 1] or "") == "}" and line:sub(-1) == ",") then line = line:sub(1, -2) end
 			-- replace placeholders
-			if (#ss39 > 0) then line = line:gsubr("<string39/>", ss39) end
-			if (#ss34 > 0) then line = line:gsubr("<string34/>", ss34) end
-			if (#ss91 > 0) then line = line:gsubr("<string91/>", ss91) end
-			line = line:gsubr("<comment>", (showc) and "--[[" or "")
-			line = line:gsubr("</comment>", (showc) and "--]]" or "")
-			line = line:gsub("<comment/>", function(_) local s = table.remove(slc, 1) or "" return (showc) and string.default(s:trim(), "-- $") or "" end)
+			line = line:gsubr("<s91$/>", ss91)
+			line = line:gsubr("<s39$/>", ss39)
+			line = line:gsubr("<s34$/>", ss34)
+			line = line:gsubr("<rem>", omlc, "--[[")
+			line = line:gsubr("</rem>", cmlc, "--]]")
+			line = line:gsubr("<rem/>", slc)
 			-- manage indentation
 			local l, _ = line:gsubc([[%b""]], ""):gsubc([[%b'']], ""):gsubc("(%[%[.-%]%])", "")
 			if (l:match("^(end).-$") or (l:match("^(elseif)%s(.-)%s(then)$") or l:match("^(else)$")) or l:match("^}.?.-$")) then il = il - 1 end
 			if (#line > 0 or #comment > 0) then output = string.format("%s%s%s%s\n", output, is:rep(il), (#comment > 0 and #line > 0) and string.format("%s ", line) or line, (#comment) > 0 and string.format("-- %s", comment) or "") end
 			if ((l:match("%s?(function)%(?.-$") and l:match("^.-(end).-$") == nil) or (l:match("^.-%s(then)$") or l:match("^(else)$")) or l:match("^.-%s?(do)$") or l:match("^.-%s?{$")) then il = il + 1 end
 		elseif (n > lsc) then
-			local nextline, _ = string.gsubc(string.trim(lines[n + 1] or ""), "%*/", "</comment>")
-			if (nextline:match("^(</comment>)$")) then lsc = nil end
+			local nextline, _ = string.gsubc(string.trim(lines[n + 1] or ""), "%*/", "</rem>")
+			if (nextline:match("^(</rem>)$")) then lsc = nil end
 			if (showc) then output = string.format("%s%s%s\n", output, is, line) end
 		end
 	end
