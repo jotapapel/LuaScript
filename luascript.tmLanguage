@@ -45,12 +45,6 @@
           <string>storage.LuaScript</string>
         </dict>
         <dict>
-          <key>match</key>
-          <string>(?&lt;=(func)\s*)(\w+)(?=\()</string>
-          <key>name</key>
-          <string>entity.name.function.LuaScript</string>
-        </dict>
-        <dict>
           <key>include</key>
           <string>#enums</string>
         </dict>
@@ -279,7 +273,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>(\s(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall))</string>
+          <string>(\s?(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall))</string>
           <key>name</key>
           <string>support.function.LuaScript</string>
         </dict>
@@ -323,7 +317,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>(\w+)(?=:\s)</string>
+          <string>(\w+)(?=\s*)</string>
           <key>name</key>
           <string>variable.parameter.LuaScript</string>
         </dict>
@@ -535,9 +529,15 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(?&lt;=(=?|\,?)\s*)(\w+)(?=\()</string>
+          <string>(?&lt;=:)(\w+)(?=\()</string>
           <key>name</key>
           <string>function.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\s*)(\w+)(?=\()</string>
+          <key>name</key>
+          <string>entity.name.function.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
@@ -547,7 +547,19 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>(\w+)(?=\s*)</string>
+          <string>(\w+)(?=:\s*)</string>
+          <key>name</key>
+          <string>variable.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(?&lt;=\.)(\w+)</string>
+          <key>name</key>
+          <string>variable.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\w+)(?=\.)</string>
           <key>name</key>
           <string>variable.LuaScript</string>
         </dict>
