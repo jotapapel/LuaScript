@@ -1,0 +1,42 @@
+import lss.file.name
+
+/*
+	Multiline comment
+	another line
+*/
+
+// enums
+enum TestEnum1 {
+	Constant1, Constant2, Constant3
+}
+
+// extensions
+extension TestExtension1: AnotherExtension1 {
+	
+	static let constant1 = 99102.3
+	var var1: string = "hello world!"
+	
+	func func1(a: string, b: number) -> (boolean) {
+		local a = string.format("foo-%s-bar", a)
+		if (b < 10) then return #a end
+	}
+}
+
+final extension TestExtension3: TestExtension1 {
+	static var var2: table = {
+		a = 9, b = 32
+	}
+}
+
+// class
+local class TestClass1: TestExtension1 {
+	
+	init(x: number, y: number) {
+		self.x, self.y = x, y
+	}
+	
+	static func func2(...) {
+		return #{...}
+	}
+	
+}
