@@ -15,7 +15,7 @@ end
 local _tonumber = tonumber
 function tonumber(v)
 	local t = _tonumber(v)
-	if (type(t) == "number") then return _tonumber(v) end
+	if (type(t) == "number") then return t end
 	return #v
 end
 
@@ -29,7 +29,7 @@ function rawvar(v)
 end
 
 function var(t)
-	return ({["string"] = "", ["number"] = 0, ["boolean"] = false, ["table"] = {}, ["function"] = function() end, ["enum"] = enum({}), ["extension"] = extension()({}), ["class"] = class(false)({}), ["object"] = class(false)({})()})[t] or ""
+	return ({["string"] = "", ["number"] = 0, ["table"] = {}, ["function"] = function() end, ["enum"] = enum({}), ["extension"] = extension()({}), ["class"] = class(false)({}), ["object"] = class(false)({})()})[t] or ""
 end
 
 function process(n, ld)
@@ -67,7 +67,7 @@ local function var_copy(v)
 	return c
 end
 
-local function var_key(s, l)
+local function var_is_key(s, l)
 	local msg = string.format("[LuaScript] Wrong variable name (var: %s)", s)
 	return (({pcall(load, catch_type(s, s, "string") .." = 1")})[2] ~= nil) and s or error(msg, l or 4)
 end
@@ -98,7 +98,7 @@ local function dict()
 		end,
 		__newvar = function(t, k, v, l)
 			local m, d = k:match("^(%g+)%p.-$"), k:match("^.-%p(%g+)$") or k
-			local dn, dt, pt = var_key(d:match("^.-%p(%g+)$") or d, 4), d:match("^(%g+)%p.-$") or type(v)
+			local dn, dt, pt = var_is_key(d:match("^.-%p(%g+)$") or d, 4), d:match("^(%g+)%p.-$") or type(v)
 			if (gmt(t).__protocol[dn]) then v = catch_type(dn, v, gmt(t).__protocol[dn], l) elseif (m == "constant") then pt = m else pt = dt end
 			gmt(t).__protocol[dn], gmt(t).__table[dn] = pt, catch_type(dn, v, dt, l)
 		end
@@ -121,7 +121,7 @@ function enum()
 		__newindex = __newindex,
 		__call = function(self, t)
 			local mt = gmt(self)
-			for _, v in ipairs(t) do mt.__table[v] = var_key(v, 3) end
+			for _, v in ipairs(t) do mt.__table[v] = var_is_key(v, 3) end
 			mt.call = nil
 			return self
 		end
