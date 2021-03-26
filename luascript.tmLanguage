@@ -28,6 +28,12 @@
       <array> 
         <dict>
           <key>match</key>
+          <string>(?&lt;=(import)\s)([\w\.]+)</string>
+          <key>name</key>
+          <string>storage.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
           <string>\b((import|final|override|static|let|var|func)\s)</string>
           <key>name</key>
           <string>keyword.LuaScript</string>
@@ -233,7 +239,7 @@
           <key>match</key>
           <string>(\w+)(?=,?)</string>
           <key>name</key>
-          <string>constant.LuaScript</string>
+          <string>constant.other.LuaScript</string>
         </dict>
        </array>
     </dict>
@@ -257,7 +263,7 @@
           <key>match</key>
           <string>(false|nil|true|_G|_VERSION|math\.(pi|huge))</string>
           <key>name</key>
-          <string>support.constant.LuaScript</string>
+          <string>constant.language.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
@@ -327,7 +333,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>\b(\d+)</string>
+          <string>(\d{1,2}([\.\x{002c}][\d\x{007b}1\x{002c}2\x{007d}])?)</string>
           <key>name</key>
           <string>constant.numeric.LuaScript</string>
         </dict>
@@ -523,21 +529,21 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(?&lt;=(func)\s*)([a-zA-Z0-9_]+)(?=\()</string>
+          <string>(?&lt;=(=|\,)\s*)(\w+)(?=\()</string>
+          <key>name</key>
+          <string>nothing.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(?&lt;=(func)\s*)(\w+)</string>
           <key>name</key>
           <string>entity.name.function.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>([a-zA-Z0-9_]+)(?=\()</string>
-          <key>name</key>
-          <string>support.function.LuaScript</string>
-        </dict>
-        <dict>
-          <key>match</key>
           <string>(self)(?=(.|:))</string>
           <key>name</key>
-          <string>support.type.LuaScript</string>
+          <string>constant.other.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
