@@ -18,7 +18,7 @@ extension TestExtension1: AnotherExtension1 {
 	
 	func func1(a: string, b: number) -> (boolean) {
 		local a = string.format("foo-%s-bar", a)
-		if (b < 10) then return #a end
+		if (b < 10) then return #a, 32, 33 end
 	}
 }
 
@@ -35,8 +35,7 @@ local class TestClass1: TestExtension1 {
 		self.x, self.y = x, y
 	}
 	
-	static func func2(...) {
-		return #{...}
+	static func func2(...) -> (any) {
+		return 338
 	}
-	
 }

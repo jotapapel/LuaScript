@@ -127,7 +127,7 @@ local function process(f, d)
 						if (l:match("^(.-)%?$")) then _, _, kn = l:find("(.-)%?$") else _, _, kn, kv = l:find("(.-)%s=%s(.-)$") end
 						if (kn:find(":")) then _, _, kn, kt = kn:find("^(.-):%s(.-)$") end
 						kt, kn, kv, i = string.default(kt, "$."):trim(), kn:trim(), (kv or string.format([[var("%s")]], kt)):trim(), i + 1
-						return string.format([[%s["%s.%s%s%s"] = %s,%s]], (i > 1) and is:rep(il) or "", m, vt, kt, kn, kv, "\n")
+						return string.format([[%s["%s.%s%s%s"] = %s%s%s]], (i > 1) and is:rep(il) or "", m, vt, kt, kn, kv, (kv:sub(-1) ~= "{") and "," or "", "\n")
 					end
 					line = string.gsub(string.format("%s,", string.match(string.gsub(line, [[%b()]], function(a) table.insert(aa, a) return "</args>" end), string.format("%s(.-)$", sw))), "(.-),", gv):gsub("</args>", function(s) return table.remove(aa, 1) end):sub(1, -2)
 				elseif (sw == "func") then
@@ -139,10 +139,17 @@ local function process(f, d)
 					line, comment, lfs = string.format([[["%s.function.%s"] = function(self%s)%s]], m, fn, (#faa > 0) and string.format(", %s", faa) or "", comment .. fct), "", il + 1
 				end
 			end
-			if (line:match("^(return)%s(.-)$") and il >= lfs and fnr[il] and #fnr[il] > 0) then line, fnr[il] = string.format("return args({%s}, {%s})", line:match("^.-%s(.-)$"), fnr[il]), nil end
 			if (line:match("^}$") and il == lfs) then line, lfs = "end,", lfs - 1 end
+			-- fix return statement
+			if (line:match("^.-(return).-$") and il >= lfs and fnr[il] and #fnr[il] > 0) then
+				if (line:match("^.-(end)$")) then 
+					line, fnr[il] = line:gsub("(return)%s(.-)%s(end)$", string.format("%%1 args({%s}, {%s}) end", ({line:find("^.-return%s(.-)%send$")})[3], fnr[il])), nil
+				else
+					line, fnr[il] = line:gsub("^(return)%s(.-)$", string.format("%%1 args({%s}, {%s})", ({line:find("^return%s(.-)$")})[3], fnr[il])), nil
+				end
+			end
 			-- fix last variable inside table
-			if (string.trim(lines[n + 1] or "") == "}" and line:sub(-1) == ",") then line = line:sub(1, -2) end
+			if ((string.trim(lines[n + 1] or "") == "}" or #string.trim(lines[n + 1] or "") == 0) and line:sub(-1) == ",") then line = line:sub(1, -2) end
 			-- replace placeholders
 			line = line:gsubr("<s91$/>", ss91)
 			line = line:gsubr("<s39$/>", ss39)
