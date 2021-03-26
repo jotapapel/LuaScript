@@ -49,7 +49,7 @@ end
 local function fileLines(file)
 	local ls = {}
 	if (fileExists(file) == nil) then return ls end
-	for l in io.lines(file) do table.insert(ls, l) end
+	for l in io.lines(file) do if (#l:trim() > 0) then table.insert(ls, l) end end
 	return ls
 end
 
@@ -149,7 +149,7 @@ local function process(f, d)
 				end
 			end
 			-- fix last variable inside table
-			if ((string.trim(lines[n + 1] or "") == "}" or #string.trim(lines[n + 1] or "") == 0) and line:sub(-1) == ",") then line = line:sub(1, -2) end
+			if (string.trim(lines[n + 1] or "") == "}" and line:sub(-1) == ",") then line = line:sub(1, -2) end
 			-- replace placeholders
 			line = line:gsubr("<s91$/>", ss91)
 			line = line:gsubr("<s39$/>", ss39)

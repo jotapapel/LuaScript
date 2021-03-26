@@ -28,12 +28,6 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(?&lt;=(import)\s)([\w\.]+)</string>
-          <key>name</key>
-          <string>storage.LuaScript</string>
-        </dict>
-        <dict>
-          <key>match</key>
           <string>\b((import|final|override|static|let|var|func)\s)</string>
           <key>name</key>
           <string>keyword.LuaScript</string>
@@ -43,6 +37,18 @@
           <string>\b(init)(?=\()</string>
           <key>name</key>
           <string>keyword.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(?&lt;=(import)\s)([\w\.]+)</string>
+          <key>name</key>
+          <string>storage.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(?&lt;=(func)\s*)(\w+)(?=\()</string>
+          <key>name</key>
+          <string>entity.name.function.LuaScript</string>
         </dict>
         <dict>
           <key>include</key>
@@ -239,7 +245,7 @@
           <key>match</key>
           <string>(\w+)(?=,?)</string>
           <key>name</key>
-          <string>constant.other.LuaScript</string>
+          <string>constant.LuaScript</string>
         </dict>
        </array>
     </dict>
@@ -529,15 +535,9 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(?&lt;=(=|\,)\s*)(\w+)(?=\()</string>
+          <string>(?&lt;=(=?|\,?)\s*)(\w+)(?=\()</string>
           <key>name</key>
-          <string>nothing.LuaScript</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>(?&lt;=(func)\s*)(\w+)</string>
-          <key>name</key>
-          <string>entity.name.function.LuaScript</string>
+          <string>function.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
