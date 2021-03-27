@@ -40,6 +40,12 @@ function table.tostring(t, k)
 	return (#t > 0) and string.format("%s%s", s, t[#t]) or nil
 end
 
+local function fileName(path)   
+	local start, finish = path:gsub("/", string.char(92)):find("[%w%s!-={-|]+[_%.].+")
+	return path:sub(start, #path) 
+end
+
+
 local function fileExists(file)
 	local f = io.open(file, "r")
 	if (f) then f:close() end
@@ -48,14 +54,10 @@ end
 
 local function fileLines(file)
 	local ls = {}
+	table.insert(ls, string.format("-- %s", fileName(file)))
 	if (fileExists(file) == nil) then return ls end
 	for l in io.lines(file) do if (#l:trim() > 0) then table.insert(ls, l) end end
 	return ls
-end
-
-local function fileName(path)   
-	local start, finish = path:gsub("/", string.char(92)):find("[%w%s!-={-|]+[_%.].+")
-	return path:sub(start, #path) 
 end
 
 local function process(f, d)
@@ -178,7 +180,7 @@ local function process(f, d)
 end
 
 if (params[2] == "true") then
-	local output = string.format("-- %s\n%s", fileName(params[1]), process(params[1], true))
+	local output = process(params[1], true)
 	print(output)
 else
 	return process
