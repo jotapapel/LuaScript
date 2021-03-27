@@ -327,7 +327,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(?&lt;![.\d])\d+(?:\.\d+)+(?![.\d])</string>
+          <string>(\d+(\.\d+)?|\.\d+)</string>
           <key>name</key>
           <string>constant.numeric.LuaScript</string>
         </dict>
@@ -597,6 +597,12 @@
           <string>(\w+)(?=\.)</string>
           <key>name</key>
           <string>variable.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(\w+)</string>
+          <key>name</key>
+          <string>source.LuaScript</string>
         </dict>
        </array>
     </dict>
