@@ -53,6 +53,11 @@ local function fileLines(file)
 	return ls
 end
 
+local function fileName(path)   
+	local start, finish = path:gsub("/", string.char(92)):find("[%w%s!-={-|]+[_%.].+")
+	return path:sub(start, #path) 
+end
+
 local function process(f, d)
 	local lines, output = fileLines(f), ""
 	local il, is = 0, (d or false) and string.char(32):rep(3) or ""
@@ -173,7 +178,7 @@ local function process(f, d)
 end
 
 if (params[2] == "true") then
-	local output = process(params[1], true)
+	local output = string.format("-- %s\n%s", fileName(params[1]), process(params[1], true))
 	print(output)
 else
 	return process
