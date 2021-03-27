@@ -35,7 +35,7 @@ function var(t)
 end
 
 function process(n, ld)
-	local output = (require("lss/lss"))(n, not(ld))
+	local output = (require(_LSSPATH))(n, not(ld))
 	if (ld == nil or ld == true) then output = assert(load(output))() end
 	return output
 end
