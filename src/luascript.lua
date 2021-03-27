@@ -3,6 +3,8 @@
 	v1.3.0 by jotapapel
 --]]
 
+_LSSPATH = "src/lss"
+
 local smt, gmt, __newindex, unpack = setmetatable, getmetatable, function() end, table.unpack or unpack
 
 -- global functions
