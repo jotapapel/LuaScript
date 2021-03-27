@@ -121,13 +121,13 @@ local function process(f, d)
 			if (sw and ins) then
 				local m = line:match("^(static)%s") or "prototype"
 				if (sw == "var" or sw == "let") then
-					local vt, aa, kt, kn, kv, i = (sw == "var") and "variable." or "constant", {}, "", "", nil, 0
+					local vt, aa, kt, kn, kv, i = (sw == "var") and "variable" or "constant", {}, "", "", nil, 0
 					local function gv(l)
-						local l, kt, kn, kv = l:trim(), "", "", nil
+						local l, kt, kn, kv = l:trim(), nil, "", nil
 						if (l:match("^(.-)%?$")) then _, _, kn = l:find("(.-)%?$") else _, _, kn, kv = l:find("(.-)%s=%s(.-)$") end
 						if (kn:find(":")) then _, _, kn, kt = kn:find("^(.-):%s(.-)$") end
 						kt, kn, kv, i = string.default(kt, "$."):trim(), kn:trim(), (kv or string.format([[var("%s")]], kt)):trim(), i + 1
-						return string.format([[%s["%s.%s%s%s"] = %s%s%s]], (i > 1) and is:rep(il) or "", m, vt, kt, kn, kv, (kv:sub(-1) ~= "{") and "," or "", "\n")
+						return string.format([[%s["%s.%s.%s%s"] = %s%s%s]], (i > 1) and is:rep(il) or "", m, vt, kt, kn, kv, (kv:sub(-1) ~= "{") and "," or "", "\n")
 					end
 					line = string.gsub(string.format("%s,", string.match(string.gsub(line, [[%b()]], function(a) table.insert(aa, a) return "</args>" end), string.format("%s(.-)$", sw))), "(.-),", gv):gsub("</args>", function(s) return table.remove(aa, 1) end):sub(1, -2)
 				elseif (sw == "func") then
