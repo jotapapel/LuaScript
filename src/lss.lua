@@ -57,7 +57,7 @@ local function process(f, d)
 	local lines, output = fileLines(f), ""
 	local il, is = 0, (d or false) and string.char(32):rep(3) or ""
 	local showc, slc = d, nil
-	local lss, ins, lfs, fnr = nil, nil, nil, {}
+	local lss, ins, lfs, fnr, lts = nil, nil, nil, {}, nil
 	
 	local function postmarks(s)
 		local aa, bb = {}, {}
@@ -126,7 +126,7 @@ local function process(f, d)
 						local l, kt, kn, kv = l:trim(), nil, "", nil
 						if (l:match("^(.-)%?$")) then _, _, kn = l:find("(.-)%?$") else _, _, kn, kv = l:find("(.-)%s=%s(.-)$") end
 						if (kn:find(":")) then _, _, kn, kt = kn:find("^(.-):%s(.-)$") end
-						kt, kn, kv, i = string.default(kt, "$."):trim(), kn:trim(), (kv or string.format([[var("%s")]], kt)):trim(), i + 1
+						kt, kn, kv, i, lts = string.default(kt, "$."):trim(), kn:trim(), (kv or string.format([[var("%s")]], kt)):trim(), i + 1, ((kv or string.format([[var("%s")]], kt)):trim():sub(-1) == "{") and il + 1
 						return string.format([[%s["%s.%s.%s%s"] = %s%s%s]], (i > 1) and is:rep(il) or "", m, vt, kt, kn, kv, (kv:sub(-1) ~= "{") and "," or "", "\n")
 					end
 					line = string.gsub(string.format("%s,", string.match(string.gsub(line, [[%b()]], function(a) table.insert(aa, a) return "</args>" end), string.format("%s(.-)$", sw))), "(.-),", gv):gsub("</args>", function(s) return table.remove(aa, 1) end):sub(1, -2)
@@ -140,6 +140,7 @@ local function process(f, d)
 				end
 			end
 			if (line:match("^}$") and il == lfs) then line, lfs = "end,", lfs - 1 end
+			if (line:match("^}$") and il == lts) then line, lts = "},", lts - 1 end
 			-- fix return statement
 			if (line:match("^.-(return).-$") and il >= lfs and fnr[il] and #fnr[il] > 0) then
 				if (line:match("^.-(end)$")) then 
