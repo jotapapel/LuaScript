@@ -28,13 +28,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>\b((import|final|override|static|let|var|func)\s)</string>
-          <key>name</key>
-          <string>keyword.LuaScript</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>\b(init)(?=\()</string>
+          <string>\b((import|final|override|static|let|var)\s)</string>
           <key>name</key>
           <string>keyword.LuaScript</string>
         </dict>
@@ -333,7 +327,7 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(\d{1,2}([\.\x{002c}][\d\x{007b}1\x{002c}2\x{007d}])?)</string>
+          <string>(?&lt;![.\d])\d+(?:\.\d+)+(?![.\d])</string>
           <key>name</key>
           <string>constant.numeric.LuaScript</string>
         </dict>
@@ -345,7 +339,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>((&amp;[a-fA-F0-9]{3,6})+)</string>
+          <string>([\x{0026}]([a-fA-F0-9]{3,6})+)</string>
           <key>name</key>
           <string>constant.numeric.LuaScript</string>
         </dict>
@@ -413,6 +407,35 @@
             </dict>
           </dict>
         </dict>
+        <dict>
+          <key>begin</key>
+          <string>\b(func)(?=\s)</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>keyword.LuaScript</string>
+            </dict>
+          </dict>
+          <key>patterns</key>
+          <array> 
+            <dict>
+              <key>include</key>
+              <string>#structures__3</string>
+            </dict>
+           </array>
+          <key>end</key>
+          <string>(\()</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>punctuation.LuaScript</string>
+            </dict>
+          </dict>
+        </dict>
        </array>
     </dict>
     <key>structures__1</key>
@@ -442,6 +465,18 @@
           <string>(\w+)</string>
           <key>name</key>
           <string>entity.name.class.LuaScript</string>
+        </dict>
+       </array>
+    </dict>
+    <key>structures__3</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(\w+)</string>
+          <key>name</key>
+          <string>entity.name.function.LuaScript</string>
         </dict>
        </array>
     </dict>
@@ -529,15 +564,15 @@
       <array> 
         <dict>
           <key>match</key>
-          <string>(?&lt;=(:|\.))(\w+)(?=\()</string>
+          <string>(init)(?=\()</string>
           <key>name</key>
-          <string>function.LuaScript</string>
+          <string>keyword.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(\s*)(\w+)(?=\()</string>
+          <string>(?&lt;=(:|\.|\s))(\w+)(?=\()</string>
           <key>name</key>
-          <string>entity.name.function.LuaScript</string>
+          <string>function.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
