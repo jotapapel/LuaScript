@@ -80,19 +80,20 @@ local function process(f, d)
 	for n, line in ipairs(lines) do
 		local line, comment = line:trim(), ""
 		if (lsc == nil) then
-			-- fix variable postmarks
-			line = postmarks(line)
+			-- fix comments
+			if (line:match("^.-//.-$")) then local _, _, l, c = line:find("^(.-)//(.-)$") line, comment = l:trim(), string.format(" -- %s", c:trim()) end
+			if (line:match("^.-/%*.-$")) then local _, _, l, c = line:find("^(.-)/%*(.-)$") line, comment = string.format("%s/*", l:trim()), c:trim() end
 			-- placeholders
-			local ss34, ss39, ss91, slc, omlc, cmlc
+			local ss34, ss39, ss91, slc, omlc
 			line, ss34 = line:gsubc([[%b""]], "<s34$/>")
 			line, ss39 = line:gsubc([[%b'']], "<s39$/>")
 			line, ss91 = line:gsubc("(%[%[.-%]%])", "<s91$/>")
 			line, slc = line:gsubc("/%*(.-)%*/", "<rem/>", function(f) return string.format("-- %s", f:trim()) end)
 			line, omlc = line:gsubc("^.-/%*.-$", "<rem>")
-			line, cmlc = line:gsubc("^.-%*/.-$", "</rem>")
 			-- manage comments
-			if (line:match("^.-//.-$")) then _, _, line, comment = string.trim(line:find("^(.-)//(.-)$")) end
 			if (line:match("^.-(<rem>).-$")) then lsc = n end
+			-- fix variable postmarks
+			line = postmarks(line)
 			-- fix import statement
 			if (line:match("^(import)%s.-$")) then line = string.format([[process("%s.lss")]], line:match("import%s(.*)$"):gsub("%.", "/")) end
 			-- fix try/catch control structure
@@ -169,17 +170,17 @@ local function process(f, d)
 			line = line:gsubr("<s39$/>", ss39)
 			line = line:gsubr("<s34$/>", ss34)
 			line = line:gsubr("<rem>", omlc, "--[[")
-			line = line:gsubr("</rem>", cmlc, "--]]")
 			line = line:gsubr("<rem/>", slc)
 			-- manage indentation
 			local l, _ = line:gsubc([[%b""]], ""):gsubc([[%b'']], ""):gsubc("(%[%[.-%]%])", "")
 			if (l:match("^(end).-$") or (l:match("^(elseif)%s(.-)%s(then)$") or l:match("^(else)$")) or l:match("^}.?.-$")) then il = il - 1 end
-			if (#line > 0 or #comment > 0) then output = string.format("%s%s%s%s\n", output, is:rep(il), (#comment > 0 and #line > 0) and string.format("%s ", line) or line, (#comment) > 0 and string.format("-- %s", comment) or "") end
+			if (#line > 0 or #comment > 0) then output = string.format("%s%s%s%s\n", output, is:rep(il), line, comment) end
 			if ((l:match("%s*(function)%(?$") or l:match("%s*(function)%s.-%)$") or l:match("%s*(function)%(.-%)?$") and l:match("^.-(end)$") == nil) or (l:match("^.-%s(then)$") or l:match("^(else)$")) or l:match("^.-%s?(do)$") or l:match("^.-%s?{$")) then il = il + 1 end
 		elseif (n > lsc) then
-			local nextline, _ = string.gsubc(string.trim(lines[n + 1] or ""), "%*/", "</rem>")
-			if (nextline:match("</rem>")) then lsc = nil end
-			if (showc) then output = string.format("%s%s%s\n", output, is:rep(il + 1), line) end
+			local icl, line, cmlc = il + 1, line:trim():gsubc("%*/", "</rem>")
+			if (line:match("^.-(</rem>)$")) then icl, lsc = il, nil end
+			line = line:gsubr("</rem>", cmlc, "--]]")
+			if (showc) then output = string.format("%s%s%s\n", output, is:rep(icl), line) end
 		end
 	end
 	return output
