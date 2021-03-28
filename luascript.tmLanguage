@@ -267,7 +267,7 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>(\s?(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall))</string>
+          <string>\b(assert|collectgarbage|dofile|error|getfenv|getmetatable|ipairs|loadfile|loadstring|module|next|pairs|pcall|print|rawequal|rawget|rawset|require|select|setfenv|setmetatable|tonumber|tostring|type|unpack|xpcall)\b</string>
           <key>name</key>
           <string>support.function.LuaScript</string>
         </dict>

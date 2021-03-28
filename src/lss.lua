@@ -173,7 +173,7 @@ local function process(f, d)
 		elseif (n > lsc) then
 			local nextline, _ = string.gsubc(string.trim(lines[n + 1] or ""), "%*/", "</rem>")
 			if (nextline:match("</rem>")) then lsc = nil end
-			if (showc) then output = string.format("%s%s%s\n", output, is, line) end
+			if (showc) then output = string.format("%s%s%s\n", output, is:rep(il + 1), line) end
 		end
 	end
 	return output
