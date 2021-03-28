@@ -169,7 +169,7 @@ local function process(f, d)
 			local l, _ = line:gsubc([[%b""]], ""):gsubc([[%b'']], ""):gsubc("(%[%[.-%]%])", "")
 			if (l:match("^(end).-$") or (l:match("^(elseif)%s(.-)%s(then)$") or l:match("^(else)$")) or l:match("^}.?.-$")) then il = il - 1 end
 			if (#line > 0 or #comment > 0) then output = string.format("%s%s%s%s\n", output, is:rep(il), (#comment > 0 and #line > 0) and string.format("%s ", line) or line, (#comment) > 0 and string.format("-- %s", comment) or "") end
-			if ((l:match("%s*(function)%(?.-$") or l:match("%s*(function)%(.-%)??.-$") and l:match("^.-(end).-$") == nil) or (l:match("^.-%s(then)$") or l:match("^(else)$")) or l:match("^.-%s?(do)$") or l:match("^.-%s?{$")) then il = il + 1 end
+			if ((l:match("%s*(function)%(?$") or l:match("%s*(function)%s.-%)$") or l:match("%s*(function)%(.-%)?$") and l:match("^.-(end)$") == nil) or (l:match("^.-%s(then)$") or l:match("^(else)$")) or l:match("^.-%s?(do)$") or l:match("^.-%s?{$")) then il = il + 1 end
 		elseif (n > lsc) then
 			local nextline, _ = string.gsubc(string.trim(lines[n + 1] or ""), "%*/", "</rem>")
 			if (nextline:match("</rem>")) then lsc = nil end
