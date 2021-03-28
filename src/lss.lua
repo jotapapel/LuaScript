@@ -88,11 +88,11 @@ local function process(f, d)
 			line, ss39 = line:gsubc([[%b'']], "<s39$/>")
 			line, ss91 = line:gsubc("(%[%[.-%]%])", "<s91$/>")
 			line, slc = line:gsubc("/%*(.-)%*/", "<rem/>", function(f) return string.format("-- %s", f:trim()) end)
-			line, omlc = line:gsubc("/%*", "<rem>")
-			line, cmlc = line:gsubc("%*/", "</rem>")
+			line, omlc = line:gsubc("^.-/%*.-$", "<rem>")
+			line, cmlc = line:gsubc("^.-%*/.-$", "</rem>")
 			-- manage comments
 			if (line:match("^.-//.-$")) then _, _, line, comment = string.trim(line:find("^(.-)//(.-)$")) end
-			if (line:match("^.-(<rem>)$")) then lsc = n end
+			if (line:match("^.-(<rem>).-$")) then lsc = n end
 			-- fix import statement
 			if (line:match("^(import)%s.-$")) then line = string.format([[process("%s.lss")]], line:match("import%s(.*)$"):gsub("%.", "/")) end
 			-- fix try/catch control structure
@@ -172,7 +172,7 @@ local function process(f, d)
 			if ((l:match("%s*(function)%(?.-$") or l:match("%s*(function)%(.-%)??.-$") and l:match("^.-(end).-$") == nil) or (l:match("^.-%s(then)$") or l:match("^(else)$")) or l:match("^.-%s?(do)$") or l:match("^.-%s?{$")) then il = il + 1 end
 		elseif (n > lsc) then
 			local nextline, _ = string.gsubc(string.trim(lines[n + 1] or ""), "%*/", "</rem>")
-			if (nextline:match("^(</rem>)$")) then lsc = nil end
+			if (nextline:match("</rem>")) then lsc = nil end
 			if (showc) then output = string.format("%s%s%s\n", output, is, line) end
 		end
 	end
