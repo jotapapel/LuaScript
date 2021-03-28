@@ -114,6 +114,12 @@ local function process(f, d)
 				line, lss, ins = string.format("%s%s = (%s(%s%s))({", stl, stn, stk, stf, sta), il + 1, stk
 			end
 			if (line:match('^}$') and il == lss) then line, ins = "})", nil end
+			-- fix enum variable declaration
+			if (ins == "enum" and il == lss) then
+				local vss = {}
+				string.gsub(string.format("%s%s", line, (line:sub(-1) ~= ",") and "," or ""), "(.-),", function(f) table.insert(vss, f:trim()) end)
+				line = string.format([["%s",]], table.tostring(vss, [[", "]]))
+			end
 			-- fix init function declaration
 			local sc = line:match("^(init%()(.-)$")
 			if (sc and ins) then
