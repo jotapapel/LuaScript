@@ -34,7 +34,7 @@ local class TestClass1: TestExtension1 {
 	
 	init(x: number, y: number) {
 		self.x, self.y = x, y
-		local a = table1.table2:method()
+		local a = table1.table2:method(&fff)
 	}
 	
 	static func func2(...) -> (any) {
