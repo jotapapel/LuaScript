@@ -97,6 +97,30 @@
           </dict>
         </dict>
         <dict>
+          <key>begin</key>
+          <string>(\b(import)\s*)</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>keyword.luascript</string>
+            </dict>
+          </dict>
+          <key>contentName</key>
+          <string>source.luascript</string>
+          <key>end</key>
+          <string>($)</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>source.luascript</string>
+            </dict>
+          </dict>
+        </dict>
+        <dict>
           <key>include</key>
           <string>#numeric</string>
         </dict>
@@ -612,6 +636,12 @@
           <key>name</key>
           <string>source.luascript</string>
         </dict>
+       </array>
+    </dict>
+    <key>main__3</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
        </array>
     </dict>
     <key>numeric</key>
