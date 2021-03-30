@@ -13,7 +13,7 @@ enum TestEnum1 {
 // extensions
 extension TestExtension1: AnotherExtension1 {
 	
-	static let constant1 = 99102.3
+	static const constant1 = 99102.3
 	var var1: string = "hello world!", var2: boolean = false
 	
 	func func1(a: string, b: number) -> (boolean) {
