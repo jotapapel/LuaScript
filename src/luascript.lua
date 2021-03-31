@@ -31,7 +31,7 @@ function rawvar(v)
 end
 
 function var(t)
-	return ({["string"] = "", ["number"] = 0, ["table"] = {}, ["function"] = function() end, ["enum"] = enum({}), ["extension"] = extension()({}), ["class"] = class(false)({}), ["object"] = class(false)({})()})[t] or ""
+	return ({["string"] = "", ["number"] = 0, ["table"] = {}, ["function"] = function() end, ["class"] = class(false)({}), ["object"] = class(false)({})()})[t] or ""
 end
 
 function process(n, ld)
