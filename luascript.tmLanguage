@@ -412,7 +412,7 @@
           <key>match</key>
           <string>(\b(\w+)\b)</string>
           <key>name</key>
-          <string>constant.other.luascript</string>
+          <string>constant.character.luascript</string>
         </dict>
        </array>
     </dict>
@@ -422,7 +422,7 @@
       <array> 
         <dict>
           <key>begin</key>
-          <string>(\b(var|let)\s*)</string>
+          <string>(\b(var|const)\s*)</string>
           <key>beginCaptures</key>
           <dict>
             <key>1</key>
