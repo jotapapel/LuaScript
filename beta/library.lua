@@ -72,7 +72,7 @@ local __newindex = function()
 	-- empty function
 end
 
-local entity = function(t)
+local new_entity = function(t)
 	local t, mt = gmt(t) and t or {}, gmt(t) or t
 	local h, l = tostring(t), mt.__entity
 	if (mt.__newindex == nil) then mt.__newindex = __newindex end
@@ -81,7 +81,7 @@ local entity = function(t)
 end
 
 function dict(it)
-	local d = entity({
+	local d = new_entity({
 		__entity = "dict",
 		__protocol = {},
 		__table = {},
@@ -106,7 +106,7 @@ function dict(it)
 end
 
 function enum(it)
-	local e = entity({
+	local e = new_entity({
 		__entity = "enum",
 		__table = {},
 		__index = function(t, k) return gmt(t).__table[k] end
@@ -120,7 +120,7 @@ function enum(it)
 end
 
 function prototype(f, ...)
-	local xx, x = {...}, entity({
+	local xx, x = {...}, new_entity({
 		__entity = "prototype",
 		__prototype = dict({}),
 		__static = dict({}),
@@ -162,7 +162,7 @@ function super()
 end
 
 function class(f, ...)
-	local ss, c = {...}, entity({
+	local ss, c = {...}, new_entity({
 		__entity = "class",
 		__prototype = dict({}),
 		__static = dict({}),
