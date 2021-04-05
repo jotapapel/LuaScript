@@ -3,7 +3,7 @@
 	v1.3.0 by jotapapel
 --]]
 
-_LSSPATH = "src/lss"
+_LSSPATH = "lib/lss"
 
 local smt, gmt, __newindex, unpack = setmetatable, getmetatable, function() end, table.unpack or unpack
 
@@ -31,7 +31,7 @@ function rawvar(v)
 end
 
 function var(t)
-	return ({["string"] = "", ["number"] = 0, ["table"] = {}, ["function"] = function() end, ["class"] = class(false)({}), ["object"] = class(false)({})()})[t] or ""
+	return ({["string"] = "", ["number"] = 0, ["table"] = {}, ["function"] = function() end, ["enum"] = enum({}), ["extension"] = extension()({}), ["class"] = class(false)({}), ["object"] = class(false)({})()})[t] or ""
 end
 
 function process(n, ld)
@@ -110,7 +110,7 @@ end
 function args(vs, ts)
 	for i = 1, #ts do
 		local v, msg = vs[i], string.format("[LuaScript] %s expected, got %s (arg: %i).", ts[i]:gsub("^%l", string.upper), type(vs[i]), i)
-		if (type(v) ~= ts[i]) then error(msg, 3) end
+		if (type(v) ~= ts[i] and v ~= nil) then error(msg, 3) end
 	end
 	return unpack(vs)
 end
