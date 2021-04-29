@@ -14,7 +14,7 @@ __Repository__ <big>**·**</big> [Documentation](https://github.com/jotapapel/lu
 
 // single line comment
 
-import dir.file
+require dir.file
 
 enum EnumName {
 	Const1,
@@ -23,19 +23,16 @@ enum EnumName {
 }
 
 final prototype PrototypeName: Prototype2, Prototype3 {
-
 	static var z: object = Class(2, 3)
 	var a: number = 99, b: string = "bootleg"
 	const c = math.pi
 
 	func d(a: string, b: number?, ...) {
-	
+		...
 	}
-	
 }
 
-class Class1: Superclass, Prototype2, Prototype3 {
-
+class Class1: SuperClass, Prototype2, Prototype3 {
 	var a: number = 99, b: string = "bootleg"
 	const c = {
 		a = 2,
@@ -43,7 +40,7 @@ class Class1: Superclass, Prototype2, Prototype3 {
 	}
 	
 	constructor(a: string, b: number?, ...) {
-		
+		...
 	}
 	
 	static func d(a: string, b: number?  , c, d: boolean) -> (string) {
@@ -51,7 +48,6 @@ class Class1: Superclass, Prototype2, Prototype3 {
 			// something
 		end
 	}
-
 }
 ```
 #### Processed lua file
@@ -62,7 +58,7 @@ class Class1: Superclass, Prototype2, Prototype3 {
 	and another
 --]]
 -- single line comment
-import dir.file
+require("dir/file")
 EnumName = enum({
 	"Const1",
 	"Const2",
@@ -77,7 +73,7 @@ PrototypeName = prototype(true, "Prototype2", "Prototype3")({
 		catch_types({"string", "number?"}, true, a, b)
 	end
 })
-Class1 = class(false, "Superclass", "Prototype2", "Prototype3")({
+Class1 = class(false, "SuperClass", "Prototype2", "Prototype3")({
 	["a:number"] = 99,
 	["b:string"] = "bootleg",
 	["c:constant"] = {
@@ -88,12 +84,13 @@ Class1 = class(false, "Superclass", "Prototype2", "Prototype3")({
 		catch_types({"string", "number?"}, true, a, b)
 	end,
 	["static-d"] = function(self, a, b, d)
-		return catch_types({"string"}, false, (function(self, a, b, d)
-			catch_types({"string", "number?", "boolean"}, true, a, b, d)
-			try (1 + nil)
-			-- something
-		end
-	}
+ 		return catch_types({"string"}, false, (function(self, a, b, d)
+ 			catch_types({"string", "number?", "boolean"}, true, a, b, d)
+ 			try_catch(self, function(self)
+ 				-- something
+ 			end)
+ 		end)(self, a, b, d))
+	end
 })
 ````
 
