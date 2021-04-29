@@ -11,9 +11,9 @@
    inkscape:version="1.0 (4035a4f, 2020-05-01)"
    id="svg8"
    version="1.1"
-   viewBox="0 0 278.34166 278.34167"
-   height="1052"
-   width="1052">
+   viewBox="0 0 66.145832 66.145834"
+   height="250"
+   width="250">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -28,9 +28,9 @@
      inkscape:document-rotation="0"
      inkscape:current-layer="layer1"
      inkscape:document-units="mm"
-     inkscape:cy="620.98069"
-     inkscape:cx="843.54132"
-     inkscape:zoom="0.16976347"
+     inkscape:cy="141.77243"
+     inkscape:cx="194.45801"
+     inkscape:zoom="0.87849296"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      borderopacity="1.0"
@@ -53,24 +53,9 @@
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Capa 1">
-    <rect
-       ry="0"
-       y="-4.0690106e-06"
-       x="-4.0690106e-06"
-       height="278.34167"
-       width="278.34167"
-       id="rect861"
-       style="fill:#2a2aff;fill-opacity:1;stroke-width:0.529166;stroke-linecap:round;paint-order:markers stroke fill"
-       rx="0" />
-    <text
-       id="text879"
-       y="255.00562"
-       x="58.468288"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:187.344px;line-height:1.25;font-family:'Neutra Text';-inkscape-font-specification:'Neutra Text, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;fill-opacity:1;stroke-width:0.264583"
-       xml:space="preserve"><tspan
-         y="255.00562"
-         x="58.468288"
-         id="tspan881"
-         sodipodi:role="line">LS</tspan></text>
+    <path
+       d="M 0,0 V 66.145832 H 66.145832 V 0 Z m 50.381577,29.969751 c 3.96236,0 6.811692,1.380191 8.859657,4.986382 l -4.85277,3.116429 c -1.068502,-1.914398 -2.226054,-2.67126 -4.006887,-2.67126 -1.825358,0 -2.982942,1.15755 -2.982942,2.67126 0,1.869879 1.157568,2.626823 3.82882,3.784365 l 1.558155,0.667813 c 5.297985,2.27057 8.280879,4.585634 8.280879,9.794579 0,5.609635 -4.407498,8.68159 -10.32878,8.68159 -5.787716,0 -9.527493,-2.760273 -11.352848,-6.366467 l 5.075415,-2.938484 c 1.335627,2.181524 3.071881,3.784364 6.143821,3.784364 2.582216,0 4.229533,-1.291135 4.229533,-3.071971 0,-2.137002 -1.691753,-2.893914 -4.541088,-4.140501 l -1.558277,-0.667814 c -4.496612,-1.914398 -7.479572,-4.318479 -7.479572,-9.393862 0,-4.674695 3.561768,-8.236423 9.126884,-8.236423 z m -33.326021,0.356258 h 6.232856 v 24.798057 h 13.712551 v 5.476129 H 17.055556 Z"
+       style="fill:#2a2aff;fill-opacity:1;stroke-width:0.529167;stroke-linecap:round;paint-order:markers stroke fill"
+       id="rect861" />
   </g>
 </svg>
