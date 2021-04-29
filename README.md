@@ -6,65 +6,94 @@ __Repository__ <big>**·**</big> [Documentation](https://github.com/jotapapel/lu
 
 #### Example lss file
 ```
-import engine.schema
+/*
+	Multiline comment
+	another line,
+	and another
+*/
 
-local fieldController
-local class Love2d: Callbacks {
-	let fieldController = FieldController()
-	let mainWindow = Canvas(320, 200, &000)
+// single line comment
 
-	func load() {
-		fieldController = self.fieldController
-		fieldController:goTo(Field, "TestField", 640, 640)
-	}
-	
-	func update(dt: number) {
-		fieldController:getCurrent():update(dt)
-	}
+import dir.file
 
-	func draw() {
-		local w, h, _ = love.window.getMode()
-		local x, y = (w - (dimens.screen.width * dimens.scale)) / 2, (h - (dimens.screen.height * dimens.scale)) / 2
-		
-		love.graphics.clear()
-		fieldController:getCurrent():draw()
-	}
-
-	func keypressed(key: string, scancode: string, isrepeat: boolean) {
-		fieldController:getCurrent():keypressed(key, scancode, isrepeat)
-		if (key == "return") then fieldController:goTo(Field, "AnotherField", 320, 200) end
-	}
+enum EnumName {
+	Const1,
+	Const2,
+	Const3
 }
 
-return Love2d
-````
+final prototype PrototypeName: Prototype2, Prototype3 {
+
+	static var z: object = Class(2, 3)
+	var a: number = 99, b: string = "bootleg"
+	const c = math.pi
+
+	func d(a: string, b: number?, ...) {
+	
+	}
+	
+}
+
+class Class1: Superclass, Prototype2, Prototype3 {
+
+	var a: number = 99, b: string = "bootleg"
+	const c = {
+		a = 2,
+		b = 33
+	}
+	
+	constructor(a: string, b: number?, ...) {
+		
+	}
+	
+	static func d(a: string, b: number?  , c, d: boolean) -> (string) {
+		try (1 + nil)
+			// something
+		end
+	}
+
+}
+```
 #### Processed lua file
 ``` lua
-process("engine/schema.lss")
-local fieldController
-local Love2d = (class(false, "Callbacks"))({
-   ["prototype.constant.fieldController"] = FieldController(),
-   ["prototype.constant.mainWindow"] = Canvas(320, 200, torgb("000")),
-   ["prototype.function.load"] = function(self)
-      fieldController = self.fieldController
-      fieldController:goTo(Field, "TestField", 640, 640)
-   end,
-   ["prototype.function.update"] = function(self, dt)
-      local dt = args({dt}, {"number"})
-      fieldController:getCurrent():update(dt)
-   end,
-   ["prototype.function.draw"] = function(self)
-      local w, h, _ = love.window.getMode()
-      local x, y = (w - (dimens.screen.width * dimens.scale)) / 2, (h - (dimens.screen.height * dimens.scale)) / 2
-      love.graphics.clear()
-      fieldController:getCurrent():draw()
-   end,
-   ["prototype.function.keypressed"] = function(self, key, scancode, isrepeat)
-      local key, scancode, isrepeat = args({key, scancode, isrepeat}, {"string", "string", "boolean"})
-      fieldController:getCurrent():keypressed(key, scancode, isrepeat)
-      if (key == "return") then fieldController:goTo(Field, "return", 320, 200) end
-   end
+--[[
+	Multiline comment
+	another line,
+	and another
+--]]
+-- single line comment
+import dir.file
+EnumName = enum({
+	"Const1",
+	"Const2",
+	"Const3"
 })
-return Love2d
+PrototypeName = prototype(true, "Prototype2", "Prototype3")({
+	["static-z:object"] = Class(2, 3),
+	["a:number"] = 99,
+	["b:string"] = "bootleg",
+	["c:constant"] = math.pi,
+	["d"] = function(self, a, b, ...)
+		catch_types({"string", "number?"}, true, a, b)
+	end
+})
+Class1 = class(false, "Superclass", "Prototype2", "Prototype3")({
+	["a:number"] = 99,
+	["b:string"] = "bootleg",
+	["c:constant"] = {
+		a = 2,
+		b = 33
+	},
+	["constructor"] = function(self, a, b, ...)
+		catch_types({"string", "number?"}, true, a, b)
+	end,
+	["static-d"] = function(self, a, b, d)
+		return catch_types({"string"}, false, (function(self, a, b, d)
+			catch_types({"string", "number?", "boolean"}, true, a, b, d)
+			try (1 + nil)
+			-- something
+		end
+	}
+})
 ````
 
