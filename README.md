@@ -43,8 +43,8 @@ class Class1: SuperClass, Prototype2, Prototype3 {
 		...
 	}
 	
-	static func d(a: string, b: number?  , c, d: boolean) -> (string) {
-		try (1 + nil)
+	static func d(a: string, b: number?, c: object, d: boolean) -> (string) {
+		try
 			// something
 		end
 	}
@@ -83,13 +83,13 @@ Class1 = class(false, "SuperClass", "Prototype2", "Prototype3")({
 	["constructor"] = function(self, a, b, ...)
 		catch_types({"string", "number?"}, true, a, b)
 	end,
-	["static-d"] = function(self, a, b, d)
- 		return catch_types({"string"}, false, (function(self, a, b, d)
- 			catch_types({"string", "number?", "boolean"}, true, a, b, d)
+	["static-d"] = function(self, a, b, c, d)
+ 		return catch_types({"string"}, false, (function(self, a, b, c, d)
+ 			catch_types({"string", "number?", "boolean"}, true, a, b, c, d)
  			try_catch(self, function(self)
  				-- something
  			end)
- 		end)(self, a, b, d))
+ 		end)(self, a, b, c, d))
 	end
 })
 ````
