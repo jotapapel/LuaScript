@@ -1,4 +1,4 @@
-# <img src="https://raw.githubusercontent.com/jotapapel/luascript/main/lsc-logo.svg" color="red"/> LuaScript
+# <img src="https://raw.githubusercontent.com/jotapapel/luascript/main/logo.svg" color="red"/> LuaScript
 _Library and preprocessor for object-oriented programming in the Lua programming language._\
 __Repository__ <big>**·**</big> [Documentation](https://github.com/jotapapel/luascript/wiki) <big>**·**</big> [Releases](https://github.com/jotapapel/luascript/releases)
 
