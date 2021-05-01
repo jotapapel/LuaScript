@@ -23,34 +23,39 @@ enum EnumName {
 }
 
 final prototype PrototypeName: Prototype2, Prototype3 {
+
 	static var z: object = Class(2, 3)
 	var a: number = 99, b: string = "bootleg"
 	const c = math.pi
 
-	func d(a: string, b: number?, ...) {
-		...
+	func d(...) {
+	
 	}
+	
 }
 
-class Class1: SuperClass, Prototype2, Prototype3 {
+class Class1: Superclass, Prototype2, Prototype3 {
+
 	var a: number = 99, b: string = "bootleg"
 	const c = {
 		a = 2,
 		b = 33
 	}
 	
-	constructor(a: string, b: number?, ...) {
-		...
+	constructor(a: string, b: number?) {
+		
 	}
 	
-	static func d(a: string, b: number?, c: object, d: boolean) -> (string) {
+	static func d(a: string, b: number?, c: any) -> (string) {
 		try
 			// something
 		end
+		return "string"
 	}
+
 }
 ```
-#### Processed lua file
+#### Processed lua file (complete)
 ``` lua
 --[[
 	Multiline comment
@@ -69,28 +74,59 @@ PrototypeName = prototype(true, "Prototype2", "Prototype3")({
 	["a:number"] = 99,
 	["b:string"] = "bootleg",
 	["c:constant"] = math.pi,
-	["d"] = function(self, a, b, ...)
-		catch_types({"string", "number?"}, true, a, b)
+	["d"] = function(self, ...)
 	end
 })
-Class1 = class(false, "SuperClass", "Prototype2", "Prototype3")({
+Class1 = class(false, "Superclass", "Prototype2", "Prototype3")({
 	["a:number"] = 99,
 	["b:string"] = "bootleg",
 	["c:constant"] = {
 		a = 2,
 		b = 33
 	},
-	["constructor"] = function(self, a, b, ...)
+	["constructor"] = function(self, a, b)
 		catch_types({"string", "number?"}, true, a, b)
 	end,
-	["static-d"] = function(self, a, b, c, d)
- 		return catch_types({"string"}, false, (function(self, a, b, c, d)
- 			catch_types({"string", "number?", "boolean"}, true, a, b, c, d)
- 			try_catch(self, function(self)
- 				-- something
- 			end)
- 		end)(self, a, b, c, d))
+	["static-d"] = function(self, a, b, c)
+		return catch_types({"string"}, false, (function(self, a, b, c)
+			catch_types({"string", "number?", "any"}, true, a, b, c)
+			try_catch(self, function(self)
+				-- something
+			end)
+			return "string"
+		end)(self, a, b, c))
 	end
 })
 ````
-
+#### Processed lua file (minimal)
+```` lua
+require("dir/file")
+EnumName = enum({
+"Const1",
+"Const2",
+"Const3"
+})
+PrototypeName = prototype(true, "Prototype2", "Prototype3")({
+["static-z:object"] = Class(2, 3)
+["a:number"] = 99,
+["b:string"] = "bootleg"
+["c:constant"] = math.pi
+["d"] = function(self, ...)
+end
+})
+Class1 = class(false, "Superclass", "Prototype2", "Prototype3")({
+["a:number"] = 99,
+["b:string"] = "bootleg"
+["c:constant"] = 
+a = 2,
+b = 33
+})
+constructor(a: string, b: catch_index("number")) {
+}
+static func d(a: string, b: catch_index("number"), c: any) -> (string) {
+try_catch(self, function(self)
+end)
+return "string"
+}
+}
+````
