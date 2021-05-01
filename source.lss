@@ -1,20 +1,48 @@
+/*
+	Multiline comment
+	another line,
+	and another
+*/
+
+// single line comment
+
+require dir.file
+
 enum EnumName {
 	Const1,
 	Const2,
 	Const3
 }
 
-class ClassName {
-	var a: string = "do", b: number = 12, c: boolean = false, d: number?
-	const e = 999.1
+final prototype PrototypeName: Prototype2, Prototype3 {
+
+	static var z: object = Class(2, 3)
+	var a: number = 99, b: string = "bootleg"
+	const c = math.pi
+
+	func d(...) {
 	
-	constructor(a: string, b, ...) {
-		local function a()
-			print("me")
+	}
+	
+}
+
+class Class1: Superclass, Prototype2, Prototype3 {
+
+	var a: number = 99, b: string = "bootleg"
+	const c = {
+		a = 2,
+		b = 33
+	}
+	
+	constructor(a: string, b: number?) {
+		
+	}
+	
+	static func d(a: string, b: number?, c: any) -> (string) {
+		try
+			// something
 		end
+		return "string"
 	}
-	
-	func f(a: string, b, ...) -> (string) {
-		// save me
-	}
+
 }
