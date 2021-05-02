@@ -28,64 +28,6 @@
       <array> 
         <dict>
           <key>begin</key>
-          <string>\b((import)\s*)</string>
-          <key>beginCaptures</key>
-          <dict>
-            <key>1</key>
-            <dict>
-              <key>name</key>
-              <string>keyword.LuaScript</string>
-            </dict>
-          </dict>
-          <key>contentName</key>
-          <string>entity.name.filename.LuaScript</string>
-          <key>end</key>
-          <string>($)</string>
-          <key>endCaptures</key>
-          <dict>
-            <key>1</key>
-            <dict>
-              <key>name</key>
-              <string>source.LuaScript</string>
-            </dict>
-          </dict>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#numbers</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#strings</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#comment</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#entities</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#variables</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#functions</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#library</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>\b(final|static|let|while|foreach|for|in|repeat|until|if|elseif|else|return|try|catch|and|or|not)\b</string>
-          <key>name</key>
-          <string>keyword.LuaScript</string>
-        </dict>
-        <dict>
-          <key>begin</key>
           <string>(\{)</string>
           <key>beginCaptures</key>
           <dict>
@@ -99,7 +41,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#main__2</string>
+              <string>#main__1</string>
             </dict>
            </array>
           <key>end</key>
@@ -112,6 +54,12 @@
               <string>source.LuaScript</string>
             </dict>
           </dict>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(;)</string>
+          <key>name</key>
+          <string>source.LuaScript</string>
         </dict>
         <dict>
           <key>begin</key>
@@ -128,7 +76,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#main__3</string>
+              <string>#main__2</string>
             </dict>
            </array>
           <key>end</key>
@@ -142,12 +90,52 @@
             </dict>
           </dict>
         </dict>
+        <dict>
+          <key>include</key>
+          <string>#comment</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#string</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#number</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>\b(break|do|else|for|if|elseif|return|then|repeat|while|until|end|function|local|in|try|final|static|weak)\b</string>
+          <key>name</key>
+          <string>keyword.LuaScript</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#entity</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#func</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#var</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#lang</string>
+        </dict>
        </array>
     </dict>
     <key>comment</key>
     <dict>
       <key>patterns</key>
       <array> 
+        <dict>
+          <key>match</key>
+          <string>(//.*)</string>
+          <key>name</key>
+          <string>comment.LuaScript</string>
+        </dict>
         <dict>
           <key>begin</key>
           <string>(/\*)</string>
@@ -172,12 +160,6 @@
             </dict>
           </dict>
         </dict>
-        <dict>
-          <key>match</key>
-          <string>(//.*)</string>
-          <key>name</key>
-          <string>comment.LuaScript</string>
-        </dict>
        </array>
     </dict>
     <key>comment__1</key>
@@ -186,13 +168,13 @@
       <array> 
        </array>
     </dict>
-    <key>entities</key>
+    <key>entity</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
           <key>begin</key>
-          <string>(\b(enum)\s*)</string>
+          <string>\b(require\s+)</string>
           <key>beginCaptures</key>
           <dict>
             <key>1</key>
@@ -201,15 +183,10 @@
               <string>keyword.LuaScript</string>
             </dict>
           </dict>
-          <key>patterns</key>
-          <array> 
-            <dict>
-              <key>include</key>
-              <string>#entities__1</string>
-            </dict>
-           </array>
+          <key>contentName</key>
+          <string>storage.LuaScript</string>
           <key>end</key>
-          <string>(\})</string>
+          <string>($)</string>
           <key>endCaptures</key>
           <dict>
             <key>1</key>
@@ -221,7 +198,7 @@
         </dict>
         <dict>
           <key>begin</key>
-          <string>(\b(prototype|class)\b)</string>
+          <string>\b(enum\s+)</string>
           <key>beginCaptures</key>
           <dict>
             <key>1</key>
@@ -234,11 +211,40 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#entities__2</string>
+              <string>#entity__2</string>
             </dict>
            </array>
           <key>end</key>
-          <string>(\s*\{)</string>
+          <string>(})</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>source.LuaScript</string>
+            </dict>
+          </dict>
+        </dict>
+        <dict>
+          <key>begin</key>
+          <string>\b((prototype|class)\s+)</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>keyword.LuaScript</string>
+            </dict>
+          </dict>
+          <key>patterns</key>
+          <array> 
+            <dict>
+              <key>include</key>
+              <string>#entity__3</string>
+            </dict>
+           </array>
+          <key>end</key>
+          <string>(\s*(?=\{\}?))</string>
           <key>endCaptures</key>
           <dict>
             <key>1</key>
@@ -250,55 +256,84 @@
         </dict>
        </array>
     </dict>
-    <key>entities__1</key>
+    <key>entity__1</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+       </array>
+    </dict>
+    <key>entity__2</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
           <key>match</key>
-          <string>\b(\w+)(?=\s*\{)</string>
+          <string>\b(\w+)(?=\s+\{)</string>
           <key>name</key>
-          <string>entity.name.class.LuaScript</string>
+          <string>entity.class.name.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>\b(\w+)(?=,?)</string>
+          <string>\b(\w+)</string>
           <key>name</key>
           <string>constant.other.LuaScript</string>
         </dict>
        </array>
     </dict>
-    <key>entities__2</key>
+    <key>entity__3</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
-          <key>match</key>
-          <string>(\w+)(?=:\s*)</string>
-          <key>name</key>
-          <string>entity.name.class.LuaScript</string>
+          <key>begin</key>
+          <string>\b((\w+)(?=:?))</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>entity.class.name.LuaScript</string>
+            </dict>
+          </dict>
+          <key>patterns</key>
+          <array> 
+            <dict>
+              <key>include</key>
+              <string>#entity__4</string>
+            </dict>
+           </array>
+          <key>end</key>
+          <string>(\s*(?=\{\}?))</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>source.LuaScript</string>
+            </dict>
+          </dict>
         </dict>
+       </array>
+    </dict>
+    <key>entity__4</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
         <dict>
           <key>match</key>
           <string>\b(\w+)</string>
           <key>name</key>
           <string>entity.other.inherited-class.LuaScript</string>
         </dict>
-        <dict>
-          <key>match</key>
-          <string>(:)</string>
-          <key>name</key>
-          <string>source.LuaScript</string>
-        </dict>
        </array>
     </dict>
-    <key>functions</key>
+    <key>func</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
           <key>begin</key>
-          <string>(\b(func\b|constructor)\b)</string>
+          <string>\b(func\s+|constructor)</string>
           <key>beginCaptures</key>
           <dict>
             <key>1</key>
@@ -311,11 +346,11 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#functions__1</string>
+              <string>#func__1</string>
             </dict>
            </array>
           <key>end</key>
-          <string>(\s*\{)</string>
+          <string>(\s*(?=\{\}?))</string>
           <key>endCaptures</key>
           <dict>
             <key>1</key>
@@ -327,43 +362,78 @@
         </dict>
        </array>
     </dict>
-    <key>functions__1</key>
+    <key>func__1</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
-          <key>include</key>
-          <string>#types</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>\b(\w+)(?=\()</string>
-          <key>name</key>
-          <string>entity.name.function.LuaScript</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>\b(\w+)(?=:?)</string>
-          <key>name</key>
-          <string>variable.LuaScript</string>
+          <key>begin</key>
+          <string>\b(\w+)?(?=\()</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>entity.name.function.LuaScript</string>
+            </dict>
+          </dict>
+          <key>patterns</key>
+          <array> 
+            <dict>
+              <key>include</key>
+              <string>#func__2</string>
+            </dict>
+           </array>
+          <key>end</key>
+          <string>(\s*(?=\{\}?))</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>source.LuaScript</string>
+            </dict>
+          </dict>
         </dict>
        </array>
     </dict>
-    <key>library</key>
+    <key>func__2</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
           <key>match</key>
-          <string>(?&lt;![^.]\.|:)\b(self)\b</string>
+          <string>\b(\w+)(?=:\s*)</string>
+          <key>name</key>
+          <string>variable.parameter.LuaScript</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#type</string>
+        </dict>
+       </array>
+    </dict>
+    <key>lang</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>((?&lt;![^.]\.|:)\b(false|nil|true|_G|_VERSION|math\.(pi|huge))\b|(?&lt;![.])\.{3}(?!\.))</string>
           <key>name</key>
           <string>support.constant.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>(?&lt;![^.]\.|:)\b(coroutine\.(create|resume|running|status|wrap|yield)|string\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\.(concat|insert|maxn|remove|sort)|math\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|io\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|os\.(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\.(cpath|loaded|loadlib|path|preload|seeall)|debug\.(debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback))\b(?=\s*(?:[\x{0028}\x{007b}\&quot;\x{0027}]|\[\[))</string>
+          <string>((?&lt;![^.]\.|:)\b(self)\b)</string>
           <key>name</key>
-          <string>support.function.LuaScript</string>
+          <string>support.constant.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>\b(and|or|not)\b</string>
+          <key>name</key>
+          <string>keyword.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
@@ -373,15 +443,15 @@
         </dict>
         <dict>
           <key>match</key>
-          <string>(?&lt;![^.]\.|:)\b(false|nil|true|_G|_VERSION|math\.(pi|huge))\b|(?&lt;![.])\.{3}(?!\.)</string>
+          <string>(?&lt;![^.]\.|:)\b(coroutine\.(create|resume|running|status|wrap|yield)|string\.(byte|char|dump|find|format|gmatch|gsub|len|lower|match|rep|reverse|sub|upper)|table\.(concat|insert|maxn|remove|sort)|math\.(abs|acos|asin|atan2?|ceil|cosh?|deg|exp|floor|fmod|frexp|ldexp|log|log10|max|min|modf|pow|rad|random|randomseed|sinh?|sqrt|tanh?)|io\.(close|flush|input|lines|open|output|popen|read|tmpfile|type|write)|os\.(clock|date|difftime|execute|exit|getenv|remove|rename|setlocale|time|tmpname)|package\.(cpath|loaded|loadlib|path|preload|seeall)|debug\.(debug|[gs]etfenv|[gs]ethook|getinfo|[gs]etlocal|[gs]etmetatable|getregistry|[gs]etupvalue|traceback))\b(?=\s*(?:[\x{0028}\x{007b}\&quot;\x{0027}]|\[\[))</string>
           <key>name</key>
-          <string>support.constant.LuaScript</string>
+          <string>support.function.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
           <string>\b([a-zA-Z_][a-zA-Z0-9_]*)\b(?=\s*(?:[\x{0028}\x{007b}\&quot;\x{0027}]|\[\[))</string>
           <key>name</key>
-          <string>support.function.LuaScript</string>
+          <string>entity.name.function.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
@@ -389,15 +459,15 @@
           <key>name</key>
           <string>variable.LuaScript</string>
         </dict>
+        <dict>
+          <key>match</key>
+          <string>(\+|-|%|#|\*|\/|\^|==?|~=|&lt;=?|&gt;=?|(?&lt;!\.)\.{2}(?!\.))</string>
+          <key>name</key>
+          <string>source.LuaScript</string>
+        </dict>
        </array>
     </dict>
     <key>main__1</key>
-    <dict>
-      <key>patterns</key>
-      <array> 
-       </array>
-    </dict>
-    <key>main__2</key>
     <dict>
       <key>patterns</key>
       <array> 
@@ -407,61 +477,117 @@
         </dict>
        </array>
     </dict>
-    <key>main__3</key>
-    <dict>
-      <key>patterns</key>
-      <array> 
-        <dict>
-          <key>include</key>
-          <string>#library</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#numbers</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#strings</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#types</string>
-        </dict>
-       </array>
-    </dict>
-    <key>numbers</key>
+    <key>main__2</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
           <key>match</key>
-          <string>(\b\d+)</string>
+          <string>(,)</string>
+          <key>name</key>
+          <string>source.LuaScript</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#string</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#number</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#lang</string>
+        </dict>
+       </array>
+    </dict>
+    <key>number</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+        <dict>
+          <key>match</key>
+          <string>(?&lt;![\w\d.])0[xX][0-9A-Fa-f]+(?![pPeE.0-9])</string>
           <key>name</key>
           <string>constant.numeric.LuaScript</string>
         </dict>
         <dict>
           <key>match</key>
-          <string>\b(math.pi)</string>
+          <string>((?&lt;![\w\d.])0[xX][0-9A-Fa-f]+(\.[0-9A-Fa-f]+)?([eE]-?\d*)?([pP][-\x{002b}]\d+)?)</string>
+          <key>name</key>
+          <string>constant.numeric.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(?&lt;![\w\d.])\d+(?![pPeE.0-9])</string>
+          <key>name</key>
+          <string>constant.numeric.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>((?&lt;![\w\d.])\d+(\.\d+)?([eE]-?\d*)?)</string>
+          <key>name</key>
+          <string>constant.numeric.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>(&amp;((([0-9A-Fa-f]{3})|([0-9A-Fa-f]{6}))+))</string>
           <key>name</key>
           <string>constant.numeric.LuaScript</string>
         </dict>
        </array>
     </dict>
-    <key>strings</key>
+    <key>string</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
-          <key>match</key>
-          <string>(\&quot;\w+\&quot;)</string>
-          <key>name</key>
+          <key>begin</key>
+          <string>(\&quot;)</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>string.LuaScript</string>
+            </dict>
+          </dict>
+          <key>contentName</key>
           <string>string.LuaScript</string>
+          <key>end</key>
+          <string>(\&quot;)</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>string.LuaScript</string>
+            </dict>
+          </dict>
         </dict>
         <dict>
-          <key>match</key>
-          <string>(\&apos;\w+\&apos;)</string>
-          <key>name</key>
+          <key>begin</key>
+          <string>(\&apos;)</string>
+          <key>beginCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>string.LuaScript</string>
+            </dict>
+          </dict>
+          <key>contentName</key>
           <string>string.LuaScript</string>
+          <key>end</key>
+          <string>(\&apos;)</string>
+          <key>endCaptures</key>
+          <dict>
+            <key>1</key>
+            <dict>
+              <key>name</key>
+              <string>string.LuaScript</string>
+            </dict>
+          </dict>
         </dict>
         <dict>
           <key>begin</key>
@@ -489,31 +615,49 @@
         </dict>
        </array>
     </dict>
-    <key>strings__1</key>
+    <key>string__1</key>
     <dict>
       <key>patterns</key>
       <array> 
        </array>
     </dict>
-    <key>types</key>
+    <key>string__2</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+       </array>
+    </dict>
+    <key>string__3</key>
+    <dict>
+      <key>patterns</key>
+      <array> 
+       </array>
+    </dict>
+    <key>type</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
           <key>match</key>
-          <string>\b(\s*(string|number|boolean|table|userdata|class|object|any))</string>
+          <string>\b(string|number|table|boolean|function|userdata|enum|prototype|class|object|any)</string>
           <key>name</key>
           <string>support.type.LuaScript</string>
         </dict>
+        <dict>
+          <key>match</key>
+          <string>(\?)</string>
+          <key>name</key>
+          <string>support.constant.LuaScript</string>
+        </dict>
        </array>
     </dict>
-    <key>variables</key>
+    <key>var</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
           <key>begin</key>
-          <string>\b(var|const)\b</string>
+          <string>\b((var|const)\s+)</string>
           <key>beginCaptures</key>
           <dict>
             <key>1</key>
@@ -526,7 +670,7 @@
           <array> 
             <dict>
               <key>include</key>
-              <string>#variables__1</string>
+              <string>#var__1</string>
             </dict>
            </array>
           <key>end</key>
@@ -542,39 +686,37 @@
         </dict>
        </array>
     </dict>
-    <key>variables__1</key>
+    <key>var__1</key>
     <dict>
       <key>patterns</key>
       <array> 
         <dict>
+          <key>include</key>
+          <string>#string</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#number</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#type</string>
+        </dict>
+        <dict>
+          <key>include</key>
+          <string>#lang</string>
+        </dict>
+        <dict>
           <key>match</key>
-          <string>\b(var|const)\b</string>
+          <string>\b(\w+)(?=(\s*\=|:))</string>
+          <key>name</key>
+          <string>source.LuaScript</string>
+        </dict>
+        <dict>
+          <key>match</key>
+          <string>\b((var|const)\s+)</string>
           <key>name</key>
           <string>keyword.LuaScript</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#numbers</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#strings</string>
-        </dict>
-        <dict>
-          <key>include</key>
-          <string>#types</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>\b(\w+)(?=:)</string>
-          <key>name</key>
-          <string>variable.LuaScript</string>
-        </dict>
-        <dict>
-          <key>match</key>
-          <string>\b(\w+)(?=\()</string>
-          <key>name</key>
-          <string>support.function.LuaScript</string>
         </dict>
        </array>
     </dict>
